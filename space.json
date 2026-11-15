@@ -1,0 +1,10 @@
+{
+  "entry": "client/dist/index.html",
+  "managedCronJobs": [
+    "live-shows-daily-refresh"
+  ],
+  "name": "ライブ情報",
+  "platformVersion": 28,
+  "runtime": "typescript",
+  "slug": "oqi-niru-riateisuto-raibuqing-bao"
+}

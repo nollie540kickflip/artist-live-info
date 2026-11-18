@@ -257,7 +257,8 @@ async function startFetchTasks(
       `1. 公式サイトや公演・チケット情報サイトなどの公開情報を検索し、日本公演を優先して、今日（${today}、Asia/Tokyo）以降に開催される公演を確認する。`,
       `2. 情報源で実際に確認できた公演だけを集める。確認できない公演は推測で作らない。過去の公演は含めない。`,
       `3. 保存は必ず saveFetchedShows アクションだけを使う（addShow／updateShow／deleteShow は使わないこと。ユーザーのステータスやメモを守るため）。artist_id=${a.id} で呼び、確認できた公演を shows 配列で渡す。各公演には title（公演名／ツアー名）、event_date（YYYY-MM-DD）、end_date（期間公演の最終日、なければ null）、venue（会場名）、doors_time／start_time（HH:mm、分からなければ null）、ticket_sale_at（YYYY-MM-DDTHH:mm、分からなければ null）、link（公式ページや公演ページのURL）、source_name（確認した情報源の名称）を入れる。`,
-      `4. 確認できた公演が1件もなければ、shows を空配列にして saveFetchedShows を呼ぶ（取得日時だけが記録される）。`,
+      `4. ticket_sale_at の決め方：チケット発売日時が複数ある場合（FC先行・抽選先行と一般発売など）は、一般発売の日時を ticket_sale_at に入れること。先行発売しかない場合はその日時を入れる。同じ公演で日によって先行と一般を取り違えないこと。例：Salyu広島公演（2027-01-29）は公式ページに FC抽選先行 2026-10-16 12:00 と一般発売 2026-11-14 10:00 の両方が併記されているため、ticket_sale_at には一般発売の 2026-11-14T10:00 を入れる。`,
+      `5. 確認できた公演が1件もなければ、shows を空配列にして saveFetchedShows を呼ぶ（取得日時だけが記録される）。`,
     ];
     await ctx.agent.spawnTask(lines.join("\n"), {
       expectsAction: "saveFetchedShows",
